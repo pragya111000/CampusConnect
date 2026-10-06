@@ -1,0 +1,185 @@
+/* Floating AI assistant (bottom-right corner).
+   Uses the colours defined in index.css so it matches the rest of the site. */
+
+.assistant-widget {
+  position: fixed;
+  right: 20px;
+  bottom: 20px;
+  z-index: 200; /* above the sticky navbar (100) */
+}
+
+/* ---------- Floating button ---------- */
+.assistant-toggle {
+  display: block;
+  margin-left: auto;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 999px;
+  background: var(--accent);
+  color: #fff;
+  font-weight: 600;
+  box-shadow: 0 6px 20px rgba(47, 91, 234, 0.35);
+  transition: background 0.2s, transform 0.1s;
+}
+
+.assistant-toggle:hover { background: var(--accent-dark); }
+.assistant-toggle:active { transform: scale(0.97); }
+
+/* ---------- Chat window ---------- */
+.assistant-panel {
+  position: absolute;
+  right: 0;
+  bottom: 60px;
+  width: 360px;
+  max-width: calc(100vw - 40px);
+  height: 480px;
+  max-height: calc(100vh - 110px);
+  display: flex;
+  flex-direction: column;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-hover);
+  overflow: hidden;
+
+  /* closed state: hidden, slightly lower and smaller */
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(12px) scale(0.97);
+  transform-origin: bottom right;
+  transition: opacity 0.2s ease, transform 0.2s ease, visibility 0s linear 0.2s;
+}
+
+.assistant-panel.open {
+  opacity: 1;
+  visibility: visible;
+  transform: none;
+  transition-delay: 0s;
+}
+
+.assistant-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 12px 14px;
+  background: var(--accent);
+  color: #fff;
+}
+
+.assistant-header h2 { font-size: 1rem; }
+.assistant-header p { font-size: 0.78rem; opacity: 0.9; }
+
+.assistant-header-buttons { display: flex; gap: 6px; flex-shrink: 0; }
+
+.assistant-header-buttons button {
+  background: rgba(255, 255, 255, 0.18);
+  border: none;
+  border-radius: 8px;
+  color: #fff;
+  padding: 4px 10px;
+  font-size: 0.8rem;
+}
+.assistant-header-buttons button:hover { background: rgba(255, 255, 255, 0.3); }
+
+/* ---------- Messages ---------- */
+.assistant-messages {
+  flex: 1;
+  overflow-y: auto;
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  background: var(--bg);
+}
+
+.assistant-message {
+  max-width: 88%;
+  padding: 9px 13px;
+  border-radius: 14px;
+  font-size: 0.92rem;
+  white-space: pre-wrap;      /* keeps line breaks from the answer */
+  overflow-wrap: anywhere;
+}
+
+.assistant-message.user {
+  align-self: flex-end;
+  background: var(--accent);
+  color: #fff;
+  border-bottom-right-radius: 4px;
+}
+
+.assistant-message.assistant {
+  align-self: flex-start;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-bottom-left-radius: 4px;
+}
+
+.assistant-message.error {
+  background: #fdeaea;
+  border-color: #f2c4c4;
+  color: #b42323;
+}
+
+/* three bouncing dots while waiting for the answer */
+.assistant-message.typing { display: flex; gap: 5px; padding: 12px 14px; }
+
+.assistant-message.typing span {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--text-muted);
+  animation: assistant-bounce 1s infinite ease-in-out;
+}
+.assistant-message.typing span:nth-child(2) { animation-delay: 0.15s; }
+.assistant-message.typing span:nth-child(3) { animation-delay: 0.3s; }
+
+@keyframes assistant-bounce {
+  0%, 80%, 100% { transform: translateY(0); opacity: 0.4; }
+  40% { transform: translateY(-5px); opacity: 1; }
+}
+
+/* ---------- Suggested questions ---------- */
+.assistant-suggestions {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+.assistant-suggestions p { font-size: 0.82rem; color: var(--text-muted); }
+.assistant-suggestions .chip { text-align: left; font-size: 0.85rem; }
+
+/* ---------- Input row ---------- */
+.assistant-form {
+  display: flex;
+  gap: 8px;
+  padding: 10px;
+  border-top: 1px solid var(--border);
+  background: var(--surface);
+}
+
+.assistant-form .btn { padding: 8px 16px; }
+.assistant-form .btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+/* ---------- Small screens ---------- */
+@media (max-width: 600px) {
+  .assistant-widget { right: 12px; bottom: 12px; }
+  .assistant-panel { width: calc(100vw - 24px); max-width: none; }
+  .assistant-toggle { padding: 11px 16px; font-size: 0.9rem; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .assistant-panel,
+  .assistant-message.typing span { transition: none; animation: none; }
+}
