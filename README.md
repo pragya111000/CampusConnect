@@ -1,38 +1,38 @@
 # CampusConnect – College Helpdesk & Campus Assistant
 
-## Overview
+CampusConnect is a full-stack college helpdesk and campus assistant web application designed to provide students with important college information in one place.
 
-CampusConnect is a full-stack college helpdesk and campus information portal that provides students with a single platform to access faculty details, subjects, weekly timetables, notices, FAQs, and helpdesk services.
+The application allows students to access faculty details, subjects, timetable, notices, FAQs, helpdesk support, and an AI-powered campus assistant.
 
-The application uses **React and Vite** for the frontend, **Flask REST API** for the backend, and **MySQL** for storing and retrieving college data.
+---
 
-## Features
+## 🚀 Features
 
-* **AI College Assistant** - floating "Ask CampusConnect" chat on every page, answering from the college database
-* Responsive navigation with mobile menu
-* Home dashboard with campus information and helpdesk details
-* Faculty directory with search by name, subject or department
-* Department-based faculty filtering
-* Subject directory with search by name or subject code
-* Department-based subject filtering
-* Weekly timetable fetched from the database
-* Notices with dates, "Latest" labels, search and category filtering
-* FAQ section with interactive accordion
-* Helpdesk contact form with category, validation (browser + server), success and error messages
-* Helpdesk queries stored in MySQL
-* REST APIs for faculty, subjects, timetable, notices, FAQs, departments, and helpdesk queries
-* Responsive layout for desktop, tablet, and mobile devices
-* Loading, error (with "Try again") and friendly no-results messages
+* 🏠 **Home Dashboard** – Quick access to important campus services
+* 👩‍🏫 **Faculty Directory** – Search faculty by name, subject, or department
+* 📚 **Subjects** – View and search subjects and subject codes
+* 🗓️ **Timetable** – View the weekly class timetable
+* 📢 **Notices** – View and filter academic, examination, event, and general notices
+* ❓ **FAQs** – Frequently asked questions with expandable answers
+* 📩 **Helpdesk Contact Form** – Students can submit queries directly to the college helpdesk
+* 🤖 **AI Campus Assistant** – Ask questions about college-related information
+* 🔎 **Search & Filtering** – Search and filter campus information easily
+* 📱 **Responsive Design** – Works across desktop and mobile devices
+* 🗄️ **MySQL Database** – College information is stored and retrieved from a database
+* 🔐 **Environment Variables** – Sensitive credentials are kept outside the source code
 
-## Technologies Used
+---
+
+## 🛠️ Technologies Used
 
 ### Frontend
 
+* React
+* JavaScript (ES6+)
 * HTML5
 * CSS3
-* JavaScript (ES6+)
-* React.js
 * Vite
+* Fetch API
 
 ### Backend
 
@@ -46,53 +46,52 @@ The application uses **React and Vite** for the frontend, **Flask REST API** for
 * MySQL
 * MySQL Connector/Python
 
-### Other
+### AI
 
-* python-dotenv
-* Git & GitHub
+* Anthropic API
+* Python-based assistant logic
+* Database-grounded college information
 
-## Project Architecture
+### Development Tools
 
-```text
-React + Vite
-      ↓
-Flask REST API
-      ↓
-    MySQL
-```
+* Git
+* GitHub
+* npm
+* Python virtual environment
 
-The React frontend communicates with the Flask backend through REST API endpoints. The Flask backend handles database operations using MySQL.
+---
 
-## Project Structure
+## 📁 Project Structure
 
 ```text
 CampusConnect/
 │
 ├── backend/
 │   ├── app.py
-│   ├── db.py
 │   ├── assistant.py
+│   ├── db.py
 │   ├── requirements.txt
-│   ├── .gitignore
-│   └── .env
+│   ├── .env.example
+│   └── .gitignore
 │
 ├── public/
+│   └── .gitkeep
 │
 ├── src/
 │   ├── components/
-│   │   ├── Navbar.jsx
-│   │   ├── Home.jsx
-│   │   ├── Faculty.jsx
-│   │   ├── Subjects.jsx
-│   │   ├── Timetable.jsx
-│   │   ├── Notices.jsx
-│   │   ├── FAQ.jsx
-│   │   ├── Contact.jsx
-│   │   ├── SearchFilter.jsx
-│   │   ├── StatusMessage.jsx
 │   │   ├── AIAssistant.jsx
 │   │   ├── AIAssistant.css
-│   │   └── Footer.jsx
+│   │   ├── Contact.jsx
+│   │   ├── Faculty.jsx
+│   │   ├── FAQ.jsx
+│   │   ├── Footer.jsx
+│   │   ├── Home.jsx
+│   │   ├── Navbar.jsx
+│   │   ├── Notices.jsx
+│   │   ├── SearchFilter.jsx
+│   │   ├── StatusMessage.jsx
+│   │   ├── Subjects.jsx
+│   │   └── Timetable.jsx
 │   │
 │   ├── api.js
 │   ├── useFetch.js
@@ -103,99 +102,276 @@ CampusConnect/
 │
 ├── index.html
 ├── package.json
-└── README.md
+├── package-lock.json
+├── vite.config.js
+├── README.md
+└── .gitignore
 ```
 
-## Database
+---
 
-The MySQL database is named:
+## 🏗️ Application Architecture
 
 ```text
-campusconnect
+                    Student
+                       │
+                       ▼
+              React Frontend
+                       │
+                       │ Fetch API
+                       ▼
+                Flask REST API
+                       │
+             ┌─────────┴─────────┐
+             │                   │
+             ▼                   ▼
+           MySQL          AI Assistant
+             │                   │
+             │            Anthropic API
+             │                   │
+             └─────────┬─────────┘
+                       ▼
+                 Response to
+                    Student
 ```
 
-It contains the following tables:
+---
+
+## 🔄 How the Application Works
+
+### Faculty / Subjects / Timetable / Notices / FAQs
 
 ```text
-departments
-faculty
-subjects
-timetable
-notices
-faqs
-helpdesk_queries
+React Component
+      ↓
+useFetch.js
+      ↓
+api.js
+      ↓
+Flask REST API
+      ↓
+MySQL Database
+      ↓
+JSON Response
+      ↓
+React Component
+      ↓
+User Interface
 ```
 
-The database stores the college information used by the application, while helpdesk form submissions are inserted into the `helpdesk_queries` table.
+### Helpdesk Query
 
-## API Endpoints
+```text
+Student fills contact form
+          ↓
+       Contact.jsx
+          ↓
+       POST request
+          ↓
+   Flask /api/helpdesk
+          ↓
+       Validation
+          ↓
+      MySQL Database
+          ↓
+    Query is stored
+```
 
-| Method | Endpoint           | Purpose                          |
-| ------ | ------------------ | -------------------------------- |
-| GET    | `/api/faculty`     | Fetch faculty information        |
-| GET    | `/api/subjects`    | Fetch subject information        |
-| GET    | `/api/timetable`   | Fetch weekly timetable           |
-| GET    | `/api/notices`     | Fetch college notices            |
-| GET    | `/api/faqs`        | Fetch frequently asked questions |
-| GET    | `/api/departments` | Fetch departments                |
-| POST   | `/api/helpdesk`    | Submit a student helpdesk query  |
-| POST   | `/api/assistant`   | Ask the AI College Assistant     |
+### AI Assistant
 
-## How to Run
+```text
+Student asks a question
+          ↓
+     AIAssistant.jsx
+          ↓
+    /api/assistant
+          ↓
+       Flask
+          ↓
+    assistant.py
+          ↓
+    College Database
+          ↓
+   AI API / Fallback Logic
+          ↓
+       Answer
+          ↓
+     Student
+```
 
-### 1. Clone the repository
+---
+
+## 🔌 API Endpoints
+
+| Method | Endpoint           | Description                    |
+| ------ | ------------------ | ------------------------------ |
+| GET    | `/`                | Check backend status           |
+| GET    | `/api/faculty`     | Get faculty information        |
+| GET    | `/api/subjects`    | Get subjects                   |
+| GET    | `/api/timetable`   | Get timetable                  |
+| GET    | `/api/notices`     | Get notices                    |
+| GET    | `/api/faqs`        | Get frequently asked questions |
+| GET    | `/api/departments` | Get departments                |
+| POST   | `/api/helpdesk`    | Submit a helpdesk query        |
+| POST   | `/api/assistant`   | Ask the AI campus assistant    |
+
+---
+
+## 🗄️ Database
+
+CampusConnect uses **MySQL** to store college-related information.
+
+The backend connects to MySQL using:
+
+```text
+mysql-connector-python
+```
+
+The application uses environment variables for database credentials.
+
+Example database configuration:
+
+```env
+DB_HOST=localhost
+DB_USER=root
+DB_PASSWORD=YOUR_MYSQL_PASSWORD
+DB_NAME=campusconnect
+DB_PORT=3306
+```
+
+### Important
+
+The actual `.env` file containing passwords and API keys should **never be committed to GitHub**.
+
+Only a `.env.example` file with placeholder values should be included in the repository.
+
+---
+
+## 🤖 AI Assistant
+
+CampusConnect includes an AI-powered campus assistant.
+
+The assistant can answer questions related to available college information such as:
+
+* Faculty
+* Departments
+* Subjects
+* Timetable
+* Notices
+* FAQs
+* Helpdesk information
+
+The assistant can use the Anthropic API when an API key is configured.
+
+If an AI API key is not available, the application can use its built-in basic response logic for supported college-related queries.
+
+This provides a fallback mechanism instead of making the application completely dependent on an external AI API.
+
+---
+
+## ⚙️ Installation and Setup
+
+### 1. Clone the Repository
 
 ```bash
 git clone https://github.com/pragya111000/CampusConnect.git
+```
+
+```bash
 cd CampusConnect
 ```
 
-### 2. Install frontend dependencies
+---
+
+### 2. Install Frontend Dependencies
 
 ```bash
 npm install
 ```
 
-### 3. Set up the backend
+---
 
-Open the backend folder:
+### 3. Create Python Virtual Environment
+
+Move into the backend folder:
 
 ```bash
 cd backend
 ```
 
-Create and activate a virtual environment:
+Create a virtual environment:
 
 ```bash
 python -m venv venv
 ```
 
-Windows PowerShell:
+Activate it on Windows PowerShell:
 
 ```powershell
-.\venv\Scripts\activate
+.\venv\Scripts\Activate.ps1
 ```
 
-Install backend dependencies:
+If PowerShell does not allow script execution, use Command Prompt:
+
+```cmd
+venv\Scripts\activate
+```
+
+---
+
+### 4. Install Backend Dependencies
 
 ```bash
 pip install -r requirements.txt
 ```
 
-### 4. Configure environment variables
+---
 
-Create a `.env` file inside the `backend` folder:
+### 5. Configure Environment Variables
+
+Create:
 
 ```text
+backend/.env
+```
+
+based on:
+
+```text
+backend/.env.example
+```
+
+Example:
+
+```env
 DB_HOST=localhost
 DB_USER=root
 DB_PASSWORD=YOUR_MYSQL_PASSWORD
 DB_NAME=campusconnect
+DB_PORT=3306
 ```
 
-Replace `YOUR_MYSQL_PASSWORD` with your local MySQL password.
+If AI functionality is enabled, add the required AI API configuration to `.env`.
 
-### 5. Start the Flask backend
+**Never upload the real `.env` file to GitHub.**
+
+---
+
+### 6. Configure MySQL
+
+Create the required MySQL database and tables.
+
+Make sure your MySQL server is running and the database name matches:
+
+```env
+DB_NAME=campusconnect
+```
+
+Also make sure the required college data has been inserted into the database.
+
+---
+
+### 7. Start the Backend
 
 From the `backend` folder:
 
@@ -203,68 +379,121 @@ From the `backend` folder:
 python app.py
 ```
 
-The backend will run at:
+The Flask backend will run on:
 
 ```text
 http://127.0.0.1:5000
 ```
 
-### 6. Start the React frontend
+---
 
-Open another terminal in the main `CampusConnect` folder:
+### 8. Start the Frontend
+
+Open a new terminal and return to the project root:
+
+```bash
+cd CampusConnect
+```
+
+Then run:
 
 ```bash
 npm run dev
 ```
 
-Then open the URL shown in the terminal, usually:
+Vite will provide the local development URL, usually:
 
 ```text
 http://localhost:5173
 ```
 
-## AI College Assistant
+Open that URL in your browser.
 
-A floating **🤖 Ask CampusConnect** button (bottom-right, on every page) opens a chat window.
+---
+
+## 🔐 Security
+
+Sensitive information is stored using environment variables.
+
+The following files and folders should not be committed to GitHub:
 
 ```text
-User question  ->  React chat window  ->  POST /api/assistant  ->  Flask
-                                                                     |
-                                              reads faculty, subjects, notices, FAQs from MySQL
-                                                                     |
-                              AI_API_KEY set?  yes -> AI model answers using ONLY that data
-                                               no  -> "basic mode": answer looked up in the data
+.env
+venv/
+node_modules/
+__pycache__/
+*.pyc
 ```
 
-* The answer always comes from the college data in MySQL.
-* The AI key (if you use one) is stored only in `backend/.env` and is used only by Flask. It is never sent to the browser.
-* Without a key the assistant still works in basic mode (keyword lookup in the data), so the project runs out of the box.
+The project uses `.gitignore` files to prevent sensitive and generated files from being tracked.
 
-To turn on the real AI: copy `backend/.env.example` to `backend/.env`, add `AI_API_KEY=your_key`, and restart Flask.
+---
 
-### Optional: helpdesk category column
+## 📌 Important Project Files
 
-Run `backend/add_category_column.sql` once in MySQL to store the helpdesk category in its own column. Without it, the category is saved at the start of the query text.
+| File                             | Purpose                                       |
+| -------------------------------- | --------------------------------------------- |
+| `src/main.jsx`                   | Entry point of the React application          |
+| `src/App.jsx`                    | Main React application and section navigation |
+| `src/api.js`                     | Handles frontend API requests                 |
+| `src/useFetch.js`                | Reusable data-fetching React hook             |
+| `src/components/`                | React UI components                           |
+| `src/components/AIAssistant.jsx` | AI assistant interface                        |
+| `backend/app.py`                 | Flask application and REST API routes         |
+| `backend/db.py`                  | MySQL database connection                     |
+| `backend/assistant.py`           | AI assistant and fallback response logic      |
+| `backend/requirements.txt`       | Python dependencies                           |
+| `vite.config.js`                 | Vite configuration                            |
+| `package.json`                   | Frontend dependencies and scripts             |
 
-## Security
+---
 
-Database credentials are stored in a `.env` file and are excluded from Git using `.gitignore`.
+## 🚀 Available Frontend Commands
 
-The virtual environment is also excluded from the repository.
+### Start development server
 
-## Future Improvements
+```bash
+npm run dev
+```
 
-Possible future improvements include:
+### Create production build
 
-* Authentication and role-based access
+```bash
+npm run build
+```
+
+### Preview production build
+
+```bash
+npm run preview
+```
+
+---
+
+## 📈 Future Improvements
+
+* Student authentication and login
 * Admin dashboard for managing college data
-* Real college data integration
-* Rate limiting and admin login for the assistant endpoint
-* RAG-based question answering
-* Voice-based campus assistant
-* Real-time notice updates
-* Deployment of frontend, backend, and database
+* Faculty and notice management through the web interface
+* More advanced RAG-based AI assistant
+* Voice input and text-to-speech support
+* Deployment to a cloud platform
+* Role-based access control
+* Real-time notifications
+* Better analytics for helpdesk queries
 
-## Note
+---
 
-This is a demonstration project. The names, email addresses, phone numbers, schedules, notices, and other college information used in the application are dummy data.
+## 👩‍💻 Author
+
+**Pragya Pandey**
+
+B.Tech – Computer Science & Engineering (AI/ML)
+
+GitHub: `pragya111000`
+
+---
+
+## 📄 License
+
+This project is developed for educational and academic purposes.
