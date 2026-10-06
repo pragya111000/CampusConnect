@@ -72,7 +72,6 @@ CampusConnect/
 │   ├── app.py
 │   ├── db.py
 │   ├── assistant.py
-│   ├── .env.example
 │   ├── requirements.txt
 │   ├── .gitignore
 │   └── .env
